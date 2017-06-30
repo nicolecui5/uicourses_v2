@@ -7,7 +7,7 @@
 #
 # Authored by:   WSB & Suyie
 # Drafted:       June 28, 2017
-# Last modifed:  June 28, 2017
+# Last modifed:  June 29, 2017
 # Description:   This script contains hardcoded parameters for the database
 #
 ###############################################################################
@@ -108,6 +108,28 @@ TABLE_STRUCT = {
         'Research',
     ),
 }
+
+MARKDOWN_FIELDS = (
+    'Description',
+    'Resource',
+    'Tool',
+    'Curve',
+    'Desc_Lecture',
+    'Desc_Discussion',
+    'Desc_Homework',
+    'Desc_Lab',
+    'Desc_Quiz',
+    'Desc_Midterm',
+    'Desc_Project',
+    'Desc_Final',
+    'Desc_ExtraCredit',
+    'Desc_Other',
+    'Honor',
+    'Advice',
+    'AdviceForUs',
+    'Review',
+    'Research',
+)
 
 ###############################################################################
 # API KEYS

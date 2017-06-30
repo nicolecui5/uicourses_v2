@@ -13,14 +13,13 @@
 #                needed as a part of the db2json api. For security reason this
 #                script should run on the server. Otherwise remote database
 #                access must be granted for it to work.
-# TODOs:         1. Markdown support
-#                2. Refactor util and options into a separate file
 #
 ###############################################################################
 
 
 import MySQLdb as dblib
 from traceback import print_tb
+from markdown import markdown
 from util import *
 from options import *
 from credentials import *
@@ -69,6 +68,8 @@ def lookup_course_review(db, review_id):
         # encode strings (unicode strings due to utf-8)
         # if type(elem) == type(u''):
         #     elem = elem.encode(encoding='utf-8')
+        if TABLE_STRUCT['CourseReview'][idx] in MARKDOWN_FIELDS:
+            elem = markdown(elem)
         res[TABLE_STRUCT['CourseReview'][idx]] = elem
 
     return res
@@ -90,6 +91,8 @@ def lookup_prof_review(db, review_id):
         # encode unicode strings
         # if type(elem) == type(u''):
         #     elem = elem.encode(encoding='utf-8')
+        if TABLE_STRUCT['ProfReview'][idx] in MARKDOWN_FIELDS:
+            elem = markdown(elem)
         res[TABLE_STRUCT['ProfReview'][idx]] = elem
     
     return res
@@ -113,6 +116,8 @@ def lookup_prof(db, first_name, last_name):
         # encode unicode strings
         # if type(elem) == type(u''):
         #     elem = elem.encode(encoding='utf-8')
+        if TABLE_STRUCT['Professor'][idx] in MARKDOWN_FIELDS:
+            elem = markdown(elem)
         res[TABLE_STRUCT['Professor'][idx]] = elem
 
     # fetch prof reviews
@@ -161,6 +166,8 @@ def lookup_course(db, subject, code, suffix=''):
         # if type(elem) == type(u''):
         #     elem = elem.encode(encoding='utf-8')
             # print '> ' + elem          # just to make sure encoding works
+        if TABLE_STRUCT['Courses'][idx] in MARKDOWN_FIELDS:
+            elem = markdown(elem)
         res[TABLE_STRUCT['Courses'][idx]] = elem
     if cur.fetchone() is not None:
         log('W', 'record',
