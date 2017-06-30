@@ -7,8 +7,7 @@
 #
 # Authored by:   WSB & Suyie
 # Drafted:       June 27, 2017
-# Last modifed:  June 28, 2017
-# Debugged:      June 28, 2017
+# Last modifed:  June 29, 2017
 # Description:   This script provides functions that fetch data from the MySQL
 #                database and parse them into python dictionary. This is
 #                needed as a part of the db2json api. For security reason this
@@ -22,130 +21,9 @@
 
 import MySQLdb as dblib
 from traceback import print_tb
-
-###############################################################################
-# GLOBAL OPTIONS
-###############################################################################
-
-DB = {
-    'username': 'uicourses',
-    'password': 'Haochideyumi!',
-    'database': 'uicourse_uicourses_v2'
-}
-
-# Could have queried from .Columns tables. Reviewers feel free to improve
-TABLE_STRUCT = {
-    'Courses': (
-        'Id',
-        'Reviews',
-        'InitUid',
-        'Subject',
-        'Code',
-        'Suffix',
-        'Title',
-        'Professor',
-        'Description',
-        'Knowledge',
-        'Resource',
-        'Tool',
-        'Letter_Ap',
-        'Letter_A',
-        'Letter_Am',
-        'Letter_Bp',
-        'Letter_B',
-        'Letter_Bm',
-        'Curve',
-        'Pct_Lecture',
-        'Pct_Discussion',
-        'Pct_Homework',
-        'Pct_Lab',
-        'Pct_Quiz',
-        'Pct_Midterm',
-        'Pct_Project',
-        'Pct_Final',
-        'Pct_ExtraCredit',
-        'Pct_Other',
-        'Desc_Lecture',
-        'Desc_Discussion',
-        'Desc_Homework',
-        'Desc_Lab',
-        'Desc_Quiz',
-        'Desc_Midterm',
-        'Desc_Project',
-        'Desc_Final',
-        'Desc_ExtraCredit',
-        'Desc_Other',
-        'Diff_Lecture',
-        'Diff_Discussion',
-        'Diff_Homework',
-        'Diff_Lab',
-        'Diff_Quiz',
-        'Diff_Midterm',
-        'Diff_Project',
-        'Diff_Final',
-        'Honor',
-    ),
-    'CourseReview': (
-        'Id',
-        'Target',
-        'Desc_Lecture',
-        'Desc_Discussion',
-        'Desc_Homework',
-        'Desc_Lab',
-        'Desc_Quiz',
-        'Desc_Midterm',
-        'Desc_Project',
-        'Desc_Final',
-        'Desc_ExtraCredit',
-        'Desc_Other',
-        'Diff_Lecture',
-        'Diff_Discussion',
-        'Diff_Homework',
-        'Diff_Lab',
-        'Diff_Quiz',
-        'Diff_Midterm',
-        'Diff_Project',
-        'Diff_Final',
-        'Advice',
-        'AdviceForUs',
-    ),
-    'Professor': (
-        'Id',
-        'Reviews',
-        'FirstName',
-        'LastName',
-        'Course',
-        'Review',
-    ),
-    'ProfReview': (
-        'Id',
-        'Target',
-        'Review',
-        'Research',
-    ),
-}
-
-
-
-###############################################################################
-# INFRA UTIL
-###############################################################################
-
-def log(type='I', tag='', comment=''):
-    tag = tag[:8]
-    type = type[0]
-    print('{type}    {tag}{tagpad}    {comment}'\
-               .format(type=type,
-                       tag=tag, tagpad=' ' * (8 - len(tag)),
-                       comment=comment))
-
-def expand_csl(string):
-    if string == '':
-        return []
-    if string[-1] == ',':
-        string = string[:-1]
-    return string.replace(', ', ',').split(',')
-
+from util import *
+from options import *
+from credentials import *
 
 ###############################################################################
 # CONNECTION UTIL
@@ -263,17 +141,19 @@ def lookup_prof(db, first_name, last_name):
     return res
 
 
-def lookup_course(db, subject, code):
+def lookup_course(db, subject, code, suffix=''):
     # perform SQL query
     cur = db.cursor()
-    # TODO add suffix check
-    qry = 'SELECT * FROM Courses WHERE UPPER(Subject) = %s AND UPPER(Code) = %s'
-    cur.execute(qry, (subject.upper(), code.upper()))
+    qry = 'SELECT * FROM Courses ' + \
+          'WHERE UPPER(Subject) = %s' + \
+          'AND UPPER(Code) = %s ' + \
+          'AND UPPER(Suffix) = %s'
+    cur.execute(qry, (subject.upper(), code.upper(), suffix.upper()))
 
     # process results
     row = cur.fetchone()
     if row is None:
-        log('E', 'record', '%s %s not found.' % subject, code)
+        log('E', 'record', '%s %s not found.' % (subject, code))
         return None
     res = {}
     for idx, elem in enumerate(row):
