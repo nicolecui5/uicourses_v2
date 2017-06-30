@@ -11,8 +11,6 @@
 # Description:   This is a simple server that acts as an db-to-json API.
 #                It calls function from dbutil.py. It takes in GET request and
 #                returns the query results as a json string.
-# TODOs:         1. Change log format
-#                2. Change log color
 #
 ###############################################################################
 
