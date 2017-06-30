@@ -111,6 +111,7 @@ TABLE_STRUCT = {
 
 MARKDOWN_FIELDS = (
     'Description',
+    'Knowledge',
     'Resource',
     'Tool',
     'Curve',
