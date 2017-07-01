@@ -52,8 +52,8 @@ class RequestHandler(BaseHTTPRequestHandler):
         # send data
         log('I', 'conn', 'Sending data...')
         json_str = json.dumps(d)
-        # print(json_str.encode('utf-8').decode('unicode-escape'))
-        self.wfile.write(json_str.decode('unicode-escape').encode('utf-8'))
+        # print(json_str.encode('utf-8').decode('unicode-escape').replace('\n', '\\n'))
+        self.wfile.write(json_str.replace('"', '\\"').decode('unicode-escape').encode('utf-8').replace('\n', '\\n'))
         log('C', 'conn', 'Data sent.')
 
         # clean up

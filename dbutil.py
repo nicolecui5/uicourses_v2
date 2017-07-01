@@ -67,6 +67,7 @@ def lookup_course_review(db, review_id):
     for idx, elem in enumerate(row):
         # encode strings (unicode strings due to utf-8)
         # if type(elem) == type(u''):
+        #     elem = elem.replace('"', '\\"').replace('\n', '\\n')
         #     elem = elem.encode(encoding='utf-8')
         if TABLE_STRUCT['CourseReview'][idx] in MARKDOWN_FIELDS:
             elem = markdown(elem)
@@ -91,6 +92,7 @@ def lookup_prof_review(db, review_id):
         # encode unicode strings
         # if type(elem) == type(u''):
         #     elem = elem.encode(encoding='utf-8')
+        #     elem = elem.replace('"', '\\"').replace('\n', '<br>')
         if TABLE_STRUCT['ProfReview'][idx] in MARKDOWN_FIELDS:
             elem = markdown(elem)
         res[TABLE_STRUCT['ProfReview'][idx]] = elem
@@ -116,15 +118,18 @@ def lookup_prof(db, first_name, last_name):
         # encode unicode strings
         # if type(elem) == type(u''):
         #     elem = elem.encode(encoding='utf-8')
+        #     elem = elem.replace('"', '\\"').replace('\n', '<br>')
         if TABLE_STRUCT['Professor'][idx] in MARKDOWN_FIELDS:
             elem = markdown(elem)
         res[TABLE_STRUCT['Professor'][idx]] = elem
 
     # fetch prof reviews
-    prof_reviews = []
+    # prof_reviews = []
     # ignore cases
     # this only handles the case of one space - reviewers feel free to improve
     rids = expand_csl(res['Reviews'])
+    res['List_Review'] = ''
+    res['List_Research'] =  ''
     for rid in rids:
         try:
             rid = int(rid)
@@ -141,8 +146,14 @@ def lookup_prof(db, first_name, last_name):
                 'ProfReview %d does not match Professor %d. Skipping.'
                     % (review['Target'], res['Id']))
             continue
-        prof_reviews.append(review)
-    res['Reviews'] = prof_reviews
+        if review['Review']:
+            res['List_Review'] += ('- ' + review['Review'] + '\n')
+        if review['Research']:
+            res['List_Research'] += ('- ' + review['Research'] + '\n')
+        # prof_reviews.append(review)
+    # res['Reviews'] = prof_reviews
+    res['List_Review'] = markdown(res['List_Review']).replace('\n', '')
+    res['List_Research'] = markdown(res['List_Research']).replace('\n', '')
     return res
 
 
@@ -165,6 +176,7 @@ def lookup_course(db, subject, code, suffix=''):
         # encode strings. due to utf-8 encoding all strings are unicode strings
         # if type(elem) == type(u''):
         #     elem = elem.encode(encoding='utf-8')
+        #     elem = elem.replace('"', '\\"').replace('\n', '<br>')
             # print '> ' + elem          # just to make sure encoding works
         if TABLE_STRUCT['Courses'][idx] in MARKDOWN_FIELDS:
             elem = markdown(elem)
@@ -174,10 +186,11 @@ def lookup_course(db, subject, code, suffix=''):
             'Multiple %s %s found. Using the first one.' % (subject, code))
 
     # fetch reviews
-    course_reviews = []
+    # course_reviews = []
     # should ignore space. this cheats a bit becasue it can't handle multiple
     # spaces or tabs. reviewers: feel free to fix (only if time permits)
     course_review_ids = expand_csl(res['Reviews'])
+    list_review = []
     for rid in course_review_ids:
         try:
             rid = int(rid)
@@ -193,8 +206,20 @@ def lookup_course(db, subject, code, suffix=''):
                 'Review %d does not match Course %d. Skipping.'
                     % (review['Target'], res['Id']))
             continue
-        course_reviews.append(review)
-    res['Reviews'] = course_reviews
+        for r in review.keys():
+            if isinstance(review[r], unicode)==False:
+                continue
+            list_r = "List_" + r
+            if list_r not in list_review:
+                list_review.append(list_r)
+            if list_r not in res:
+                res[list_r] = ''
+            if review[r]:
+                res[list_r] += ('- ' + review[r] + '\n')
+    for list_r in list_review:
+        res[list_r] = markdown(res[list_r]).replace('\n', '')
+        # course_reviews.append(review)
+    # res['Reviews'] = course_reviews
 
     # fetch prof info - same deal
     professor_info = []
