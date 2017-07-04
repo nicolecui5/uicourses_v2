@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title> Insert: Course Review </title>
+	<meta charset="utf-8">
+	<style>
+		.column2 {
+			float: left;
+			width: 49%;
+		}
+		.column4 {
+			float: left;
+			width: 24%;
+		}
+	</style>
+</head>
+
+<body>
+
+	<h1> Insert information for Table <b>CourseReview</b> </h1>
+	<ul>
+		<li> toTable (don't modified this field): <input type="text" name="toTable" value="CourseReview"> </li>
+		<li> Size of text area can be modified </li>
+	</ul>
+
+	<form action="http://www.uicourses.com:10000" method="post">
+		<fieldset>
+			<p> Target Subject: <input type="text" name="targetCourse::subject"> </p>
+			<p> Target Code: <input type="text" name="targetCourse::code"> </p>
+			<p> Target Suffix: <input type="text" name="targetCourse::suffix"> </p>
+			<p> Desc_Lecture: </p>
+			<textarea name="Desc_Lecture" cols="100" rows="5"></textarea>
+			<p> Desc_Discussion: </p>
+			<textarea name="Desc_Discussion" cols="100" rows="5"></textarea>
+			<p> Desc_Homework: </p>
+			<textarea name="Desc_Homework" cols="100" rows="5"></textarea>
+			<p> Desc_Lab: </p>
+			<textarea name="Desc_Lab" cols="100" rows="5"></textarea>
+			<p> Desc_Quiz: </p>
+			<textarea name="Desc_Quiz" cols="100" rows="5"></textarea>
+			<p> Desc_Midterm: </p>
+			<textarea name="Desc_Midterm" cols="100" rows="5"></textarea>
+			<p> Desc_Project: </p>
+			<textarea name="Desc_Project" cols="100" rows="5"></textarea>
+			<p> Desc_Final: </p>
+			<textarea name="Desc_Final" cols="100" rows="5"></textarea>
+			<p> Desc_ExtraCredit: </p>
+			<textarea name="Desc_ExtraCredit" cols="100" rows="5"></textarea>
+			<p> Desc_Other: </p>
+			<textarea name="Desc_Other" cols="100" rows="5"></textarea>
+			<div>
+				<div class="column4">
+					<p> Diff_Lecture: <input type="number" name="Diff_Lecture" min="0" max="8"> </p>
+					<p> Diff_Discussion: <input type="number" name="Diff_Discussion" min="0" max="8"> </p>
+				</div>
+				<div class="column4">
+					<p> Diff_Homework: <input type="number" name="Diff_Homework" min="0" max="8"> </p>
+					<p> Diff_Lab: <input type="number" name="Diff_Lab" min="0" max="8"> </p>
+				</div>
+				<div class="column4">
+					<p> Diff_Quiz: <input type="number" name="Diff_Quiz" min="0" max="8"> </p>
+					<p> Diff_Midterm: <input type="number" name="Diff_Midterm" min="0" max="8"> </p>
+				</div>
+				<div class="column4">
+					<p> Diff_Project: <input type="number" name="Diff_Project" min="0" max="8"> </p>
+					<p> Diff_Final: <input type="number" name="Diff_Final" min="0" max="8"> </p>
+				</div>
+			</div>
+			<p> Advice: </p>
+			<textarea name="Advice" cols="100" rows="5"></textarea>
+			<p> AdviceForUs: </p>
+			<textarea name="AdviceForUs" cols="100" rows="5"></textarea>
+			</div>
+		</fieldset>
+		<input type="submit" value="Submit">
+	</form>
+
+</body>
+
+</html>
