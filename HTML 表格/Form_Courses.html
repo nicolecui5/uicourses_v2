@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title> Insert: Course </title>
+	<meta charset="utf-8">
+	<style>
+		.column2 {
+			float: left;
+			width: 49%;
+		}
+
+		.column4 {
+			float: left;
+			width: 24%;
+		}
+	</style>
+</head>
+
+<body>
+
+	<fieldset>
+		<p> Username: <input type="text" name="Username"> </p>
+		<p> Password: <input type="password" name="Password"> </p>
+	</fieldset>
+
+	<h1> Insert information for Table <b>Courses</b> </h1>
+	<ul>
+		<li> toTable (don't modified this field): <input type="text" name="toTable" value="Courses"> </li>
+		<li> Size of text area can be modified </li>
+	</ul>
+
+	<form action="http://www.uicourses.com:10000" method="post">
+		<fieldset>
+			<legend> Basic Course Info </legend>
+			<div class="column2">
+				<p> Initialized User Id: <input type="text" name="InitUid"> </p>
+				<p> Subject: <input type="text" name="Subject"> </p>
+				<p> Code: <input type="text" name="Code"> </p>
+				<p> Suffix: <input type="text" name="Suffix"> </p>
+				<p> Title: </p>
+				<textarea name="Title" cols="100"></textarea>
+				<p> Professor: </p>
+				<textarea name="Professor" cols="100"></textarea>
+				<p> Description (as in Markdown): </p>
+				<textarea name="Description" cols="100" rows="5"></textarea>
+			</div>
+			<div class="column2">
+				<p> Knowledge (as in Markdown): </p>
+				<textarea name="Knowledge" cols="100" rows="5"></textarea>
+				<p> Resource (as in Markdown): </p>
+				<textarea name="Resource" cols="100" rows="5"></textarea>
+				<p> Tool (as in Markdown): </p>
+				<textarea name="Tool" cols="100" rows="5"></textarea>
+			</div>
+		</fieldset>
+		<fieldset>
+			<legend> Details </legend>
+			<div class="column2">
+				<div>
+					<div class="column2">
+						<p> Letter A+: <input type="text" name="Letter_Ap"> </p>
+						<p> Letter A: <input type="text" name="Letter_A"> </p>
+						<p> Letter A-: <input type="text" name="Letter_Am"> </p>
+					</div>
+					<div class="column2">
+						<p> Letter B+: <input type="text" name="Letter_Bp"> </p>
+						<p> Letter B: <input type="text" name="Letter_B"> </p>
+						<p> Letter B-: <input type="text" name="Letter_Bm"> </p>
+					</div>
+				</div>
+				<p> Curve (as in Markdown): </p>
+				<textarea name="Curve" cols="100" rows="5"></textarea>
+				<div>
+					<div class="column2">
+						<p> Pct_Lecture: <input type="number" name="Pct_Lecture"> </p>
+						<p> Pct_Discussion: <input type="number" name="Pct_Discussion"> </p>
+						<p> Pct_Homework: <input type="number" name="Pct_Homework"> </p>
+						<p> Pct_Lab: <input type="number" name="Pct_Lab"> </p>
+						<p> Pct_Quiz: <input type="number" name="Pct_Quiz"> </p>
+					</div>
+					<div class="column2">
+						<p> Pct_Midterm: <input type="number" name="Pct_Midterm"> </p>
+						<p> Pct_Project: <input type="number" name="Pct_Project"> </p>
+						<p> Pct_Final: <input type="number" name="Pct_Final"> </p>
+						<p> Pct_ExtraCredit: <input type="number" name="Pct_ExtraCredit"> </p>
+						<p> Pct_Other: <input type="number" name="Pct_Other"> </p>
+					</div>
+				</div>
+				<p> Desc_Lecture: </p>
+				<textarea name="Desc_Lecture" cols="100" rows="5"></textarea>
+				<p> Desc_Discussion: </p>
+				<textarea name="Desc_Discussion" cols="100" rows="5"></textarea>
+				<p> Desc_Homework: </p>
+				<textarea name="Desc_Homework" cols="100" rows="5"></textarea>
+				<p> Desc_Lab: </p>
+				<textarea name="Desc_Lab" cols="100" rows="5"></textarea>
+			</div>
+			<div class="column2">
+				<p> Desc_Quiz: </p>
+				<textarea name="Desc_Quiz" cols="100" rows="5"></textarea>
+				<p> Desc_Midterm: </p>
+				<textarea name="Desc_Midterm" cols="100" rows="5"></textarea>
+				<p> Desc_Project: </p>
+				<textarea name="Desc_Project" cols="100" rows="5"></textarea>
+				<p> Desc_Final: </p>
+				<textarea name="Desc_Final" cols="100" rows="5"></textarea>
+				<p> Desc_ExtraCredit: </p>
+				<textarea name="Desc_ExtraCredit" cols="100" rows="5"></textarea>
+				<p> Desc_Other: </p>
+				<textarea name="Desc_Other" cols="100" rows="5"></textarea>
+				<div>
+					<div class="column4">
+						<p> Diff_Lecture: <input type="number" name="Diff_Lecture" min="0" max="8"> </p>
+						<p> Diff_Discussion: <input type="number" name="Diff_Discussion" min="0" max="8"> </p>
+					</div>
+					<div class="column4">
+						<p> Diff_Homework: <input type="number" name="Diff_Homework" min="0" max="8"> </p>
+						<p> Diff_Lab: <input type="number" name="Diff_Lab" min="0" max="8"> </p>
+					</div>
+					<div class="column4">
+						<p> Diff_Quiz: <input type="number" name="Diff_Quiz" min="0" max="8"> </p>
+						<p> Diff_Midterm: <input type="number" name="Diff_Midterm" min="0" max="8"> </p>
+					</div>
+					<div class="column4">
+						<p> Diff_Project: <input type="number" name="Diff_Project" min="0" max="8"> </p>
+						<p> Diff_Final: <input type="number" name="Diff_Final" min="0" max="8"> </p>
+					</div>
+				</div>
+				<p> Honor: </p>
+				<textarea name="Honor" cols="100" rows="5"></textarea>
+			</div>
+		</fieldset>
+		<input type="submit" value="Submit">
+	</form>
+
+</body>
+
+</html>
