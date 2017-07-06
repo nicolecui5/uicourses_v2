@@ -22,3 +22,26 @@ such as
 ```
 http://uicourses.com:7000/dbapi?subject=cs&code=374&key=mykey
 ```
+
+## GUI to insert to database
+### Scripts
+- `post_api`
+
+### HTML pages
+- [Forms](https://github.com/sumerinlan/uicourses_v2/tree/master/HTML%20%E8%A1%A8%E6%A0%BC)
+
+### Usage guide
+- [Wiki](https://github.com/sumerinlan/uicourses_v2/wiki/数据的填写与录入)
+- [Link to forms](http://uicourses.com/forms)
+
+## Copyright
+### Coauthored by:
+- Liu, Fangxing
+- Sun, Hanze
+- Wang, Sibo
+- Wen, Xin
+- Wu, Xintong
+- Yao, Ruiqian
+- Zhi, Qile.
+
+Copyright owned by coauthors. All rights reserved.
