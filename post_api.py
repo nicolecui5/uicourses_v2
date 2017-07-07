@@ -26,6 +26,7 @@ from sys import argv
 from util import *
 from options import *
 from dbutil import *
+from credentials import USERS
 
 try:
     PORT = int(argv[1])
@@ -43,7 +44,9 @@ def validate_key(key):
     return key in KEYS
 
 def validate_id(username, password):
-    return True
+    if username not in list(USERS.keys()):
+        return False
+    return USERS[username] == password
 
 def courses_handler(postvars):
     cmd = '''
@@ -150,7 +153,6 @@ def course_review_handler(postvars):
     %s, %s)
     '''
     # print(cmd)
-    cur = db.cursor()
     target = '%s %s %s' \
                 % (postvars['targetCourse::subject'][0],
                    postvars['targetCourse::code'][0],
@@ -178,8 +180,41 @@ def course_review_handler(postvars):
         postvars['Advice'][0],
         postvars['AdviceForUs'][0] 
     ]
+    cur = db.cursor()
     cur.execute(cmd, field)
     log('C', 'hand.', 'CourseReview for `%s` written.' % target)
+    
+    # Update review list in target
+    # get last id
+    cur.execute('SELECT LAST_INSERT_ID();')
+    row = cur.fetchone()
+    review_id = row[0]
+
+    # get current list
+    cmd = '''
+    SELECT `Id`, `Reviews` FROM `Courses`
+    WHERE UPPER(`Subject`) = %s 
+    AND UPPER(`Code`) = %s 
+    AND UPPER(`Suffix`) = %s;
+    '''
+    fields = [postvars['targetCourse::subject'][0].upper(), 
+              postvars['targetCourse::code'][0].upper(),
+              postvars['targetCourse::suffix'][0].upper()]
+    cur.execute(cmd, fields)
+    row = cur.fetchone()
+    course_id, curr_csl = row[0], row[1]
+    new_csl = append_csl(curr_csl, str(review_id))
+    if cur.fetchone() is not None:
+        log('W', 'record', 'Duplicate exists for %s' % str(fields))
+    
+    # update list
+    cmd = '''
+    UPDATE `Courses`
+    SET `Reviews` = %s
+    WHERE `Id` = %s;
+    '''
+    cur.execute(cmd, [new_csl, course_id])
+    log('C', 'hand.', 'Review appended to target course in Courses table.')
 
 def professor_handler(postvars):
     cmd = '''
@@ -208,6 +243,37 @@ def prof_review_handler(postvars):
     log('C', 'hand.', 'ProfReview to %s written.'
                       % postvars['targetProf::lastName'][0])
 
+    # Update review list in target
+    # get last id
+    cur.execute('SELECT LAST_INSERT_ID();')
+    row = cur.fetchone()
+    review_id = row[0]
+
+    # get current list
+    cmd = '''
+    SELECT `Id`, `Reviews` FROM `Professor`
+    WHERE UPPER(`FirstName`) = %s 
+    AND UPPER(`LastName`) = %s;
+    '''
+    fields = [postvars['targetProf::firstName'][0].upper(), 
+              postvars['targetProf::lastName'][0].upper()]
+    cur.execute(cmd, fields)
+    row = cur.fetchone()
+    course_id, curr_csl = row[0], row[1]
+    new_csl = append_csl(curr_csl, str(review_id))
+    if cur.fetchone() is not None:
+        log('W', 'record', 'Duplicate exists for %s' % str(fields))
+    
+    # update list
+    cmd = '''
+    UPDATE `Professor`
+    SET `Reviews` = %s
+    WHERE `Id` = %s;
+    '''
+    cur.execute(cmd, [new_csl, course_id])
+    log('C', 'hand.', 'Review appended to target prof in Professor table.')
+
+
 def dispatch(postvars):
     if 'toTable' not in list(postvars.keys()):
         return 'no toTable found'
@@ -221,8 +287,7 @@ def dispatch(postvars):
     if toTable not in list(handlers.keys()):
         log('E', 'disp.', 'invalid toTable')
     log('I', 'disp.', 'handler: %s' % toTable)
-    return handlers[toTable](postvars)
-
+    handlers[toTable](postvars)
 
 class RequestHandler(BaseHTTPRequestHandler):
     def write_response(self, d):
@@ -276,8 +341,13 @@ class RequestHandler(BaseHTTPRequestHandler):
             self.exit_on_error('Wrong credentials.')
             return
         # print(postvars)
-        dispatch(postvars)
-        self.write_response({'Status': 'OK'})
+        try:
+            dispatch(postvars)
+            self.write_response({'Status': 'OK'})
+        except:
+            log('E', 'hand.', 'Handler throws an exception.')
+            self.exit_on_error('Handler throws and exception.')
+            
 
     def do_HEAD(self):
         self.send_response(200)
