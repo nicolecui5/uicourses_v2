@@ -76,6 +76,15 @@ def parse_page(subject, code, year='DEFAULT', term='DEFAULT'):
         print('  - Page not found.')
         return
 
+    # Title
+    title = re.findall(r'<span class="app-label app-text-engage">.*</span>', content)
+    try:
+        prefix, suffix = '<span class="app-label app-text-engage">', '</span>'
+        title = title[0][len(prefix):-len(suffix)].strip()[:-1]
+        print('  - Title: %s' % title)
+    except:
+        print('  - Title not found')
+
     # Credit
     credit = re.findall(r'<p><b>Credit:</b>.*</p>', content)
     try:
@@ -134,9 +143,11 @@ def parse_page(subject, code, year='DEFAULT', term='DEFAULT'):
     return {
         'subject': subject,
         'code': code,
+        'title': title,
         'credit': credit,
         'desc': desc,
         'geneds': geneds,
+        'url': url
     }
 
 def random_sleep(mean=0.3, tolerance=0.15):
@@ -147,7 +158,7 @@ if __name__ == '__main__':
 #    print(parse_page('CS', '225'))
 #    print(parse_page('CS', '241'))
 #    print(parse_page('ANTH', '101'))
-    pool = [('CHEM', '102'),('CHEM', '103'),('CHEM', '104'),('CS', '101'),('CS', '125'),('CS', '126'),('CS', '173'),('CS', '225'),('CS', '233'),('CS', '241'),('CS', '357'),('CS', '374'),('CS', '412'),('CS', '418'),('CS', '421'),('CS', '498'),('ECON', '103'),('GE', '101'),('MATH', '220'),('MATH', '231'),('MATH', '241'),('MATH', '415'),('MATH', '448'),('MATH', '461'),('PHYS', '211'),('PHYS', '212'),('PHYS', '213'),('STAT', '400'),('TAM', '211'),('TAM', '212'),('TAM', '251')] 
+    pool = [('CHEM', '102'),('CHEM', '103'),('CHEM', '104'),('CS', '101'),('CS', '125'),('CS', '126'),('CS', '173'),('CS', '225'),('CS', '233'),('CS', '241'),('CS', '357'),('CS', '374'),('CS', '412'),('CS', '418'),('CS', '421'),('CS', '498'),('ECON', '103'),('GE', '101'),('MATH', '220'),('MATH', '231'),('MATH', '241'),('MATH', '415'),('MATH', '448'),('MATH', '461'),('PHYS', '211'),('PHYS', '212'),('PHYS', '213'),('STAT', '400'),('TAM', '211'),('TAM', '212'),('TAM', '251')]
 
     for subj, code in pool:
         random_sleep()
@@ -157,9 +168,9 @@ if __name__ == '__main__':
             print('Error pulling %s %s' % (subj, code))
             continue
         fh = open('run00.out', 'a')
-        res_str = '~~~~~~~~~~\n%s\n%s\n%s\n%s\n%s\n\n' \
-                      % (res['subject'], res['code'], res['credit'],
-                         res['desc'], res['geneds'])
+        res_str = '~~~~~~~~~~\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n\n' \
+                      % (res['subject'], res['code'], res['title'], res['credit'],
+                         res['desc'], res['geneds'], res['url'])
         fh.write(res_str)
         fh.close()
     print('Done.')
