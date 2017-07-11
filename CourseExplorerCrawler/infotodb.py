@@ -1,29 +1,28 @@
-f = open('run00.out', 'r')
+import json
+import os
+import dbutil
 
-while True:
-    line = f.readline()
-    if line == '':
-        break
-    if line[0:2] == "~~":  # start a new course
-        start = 1
-        subject = f.readline().strip()
-        # print "subject", subject
-        code = f.readline().strip()
-        # print "code", code
-        title = f.readline().strip()
-        hour = f.readline().strip()
-        # print "hour", hour
-        desc = ""
-        line = f.readline().strip()
-        while line[0:3] == "<p>":
-            desc += line
-            line = f.readline().strip()
-        # print "desc", desc
-        gened = line
-        if gened != "None":
-            gened == f.readline().strip()  # make sure line == list of gened
-        url = f.readline().strip()
-        # print "gened", gened
+def info_to_db(db, name):
+    cur = db.cursor()
+    with open(name) as data_file:
+        data = json.load(data_file)
+        subject = data['subject']
+        code = data['code']
+        title = data['title']
+        credit = data['credit']
+        desc = data['desc']
+        geneds = data['geneds']
+        url = data['url']
         cmd = 'INSERT INTO `CourseExplorer` (`Id`, `Subject`, `Code`, `Title`, `Credit`, `Description`, `GenEd`, ' \
               '`Url`) VALUES(NULL, %s, %s, %s, %s, %s, %s, %s) '
-        print cmd % (subject, code, title, hour, desc, gened, url)
+        cur.execute(cmd, [subject, code, title, credit, desc, geneds, url])
+
+if __name__ == '__main__':
+    # Testing connection
+    db = dbutil.connect()
+    for root, dirs, files in os.walk('out/'):
+        if root == '':
+            for name in files:
+                info_to_db(db, 'out/' + name)
+    # Testing disconnection
+    dbutil.disconnect(db)
