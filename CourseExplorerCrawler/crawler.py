@@ -167,10 +167,7 @@ if __name__ == '__main__':
         except:
             print('Error pulling %s %s' % (subj, code))
             continue
-        fh = open('run00.out', 'a')
-        res_str = '~~~~~~~~~~\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n\n' \
-                      % (res['subject'], res['code'], res['title'], res['credit'],
-                         res['desc'], res['geneds'], res['url'])
-        fh.write(res_str)
+        fh = open('out/%s_%s.json' % (subj, code), 'w')
+        fh.write(json.dumps(res))
         fh.close()
     print('Done.')
