@@ -80,7 +80,7 @@ def parse_page(subject, code, year='DEFAULT', term='DEFAULT'):
     title = re.findall(r'<span class="app-label app-text-engage">.*</span>', content)
     try:
         prefix, suffix = '<span class="app-label app-text-engage">', '</span>'
-        title = title[0][len(prefix):-len(suffix)].strip()[:-1]
+        title = title[0][len(prefix):-len(suffix)].strip()
         print('  - Title: %s' % title)
     except:
         print('  - Title not found')
