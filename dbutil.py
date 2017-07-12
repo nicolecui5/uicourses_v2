@@ -23,6 +23,7 @@ from markdown import markdown
 from util import *
 from options import *
 from credentials import *
+import re
 
 ###############################################################################
 # CONNECTION UTIL
@@ -141,9 +142,10 @@ def lookup_prof(db, first_name, last_name):
         if review is None:
             continue
         # validate that review and prof match
-        if review['Target'] != res['Id']:
+        full_name = '%s %s' % (res['FirstName'], res['LastName'])
+        if review['Target'].upper() != full_name.upper():
             log('W', 'record',
-                'ProfReview %d does not match Professor %d. Skipping.'
+                'ProfReview %s does not match Professor %s. Skipping.'
                     % (review['Target'], res['Id']))
             continue
         if review['Review']:
@@ -157,11 +159,49 @@ def lookup_prof(db, first_name, last_name):
     return res
 
 
+def look_up_course_explore(db, subject, code):
+    # perform SQL query
+    cur = db.cursor()
+    qry = 'SELECT * FROM CourseExplorer ' + \
+          'WHERE UPPER(Subject) = %s ' + \
+          'AND UPPER(Code) = %s'
+    cur.execute(qry, (subject, code))
+    
+    # process results
+    row = cur.fetchone()
+    if row is None:
+        log('E', 'record', 'Course explorer record: %s %s not found.' % (subject, code))
+        return None
+    res = {}
+    for idx, elem in enumerate(row):
+        res[TABLE_STRUCT['CourseExplorer'][idx]] = elem
+    if cur.fetchone() is not None:
+        log('W', 'record',
+            'Coruse explorer record: multiple %s %s found. Using the first one.' % (subject, code))
+
+    # GenEd
+    if res['GenEd'] == '':
+        res['GenEd'] = 'This course does not meet a General Education requirement.'
+
+    # Link redirection
+    # res['Description'] = res['Description'].replace(
+    #     '<a href="/schedule/', '<a target="_blank" href=https://courses.illinois.edu/schedule/')
+    res['Description'] = res['Description'].replace(
+        unicode('&quot;'), '"')
+    
+    desc = res['Description']
+    desc = desc.replace('">', '>')
+    desc = desc.replace('<a href="/schedule/', '<a target="_blank" href=https://courses.illinois.edu/schedule/')
+    res['Description'] = desc
+
+    return res
+
+
 def lookup_course(db, subject, code, suffix=''):
     # perform SQL query
     cur = db.cursor()
     qry = 'SELECT * FROM Courses ' + \
-          'WHERE UPPER(Subject) = %s' + \
+          'WHERE UPPER(Subject) = %s ' + \
           'AND UPPER(Code) = %s ' + \
           'AND UPPER(Suffix) = %s'
     cur.execute(qry, (subject.upper(), code.upper(), suffix.upper()))
@@ -201,9 +241,9 @@ def lookup_course(db, subject, code, suffix=''):
         if review is None:
             continue
         # validate that review and course match
-        if review['Target'] != res['Id']:
+        if int(review['Target']) != int(res['Id']):
             log('W', 'record',
-                'Review %d does not match Course %d. Skipping.'
+                'Review %s does not match Course %s. Skipping.' \
                     % (review['Target'], res['Id']))
             continue
         for r in review.keys():
@@ -239,6 +279,12 @@ def lookup_course(db, subject, code, suffix=''):
             professor_info.append(info)
     res['Professor'] = professor_info
 
+    course_explorer = look_up_course_explore(db, subject, code)
+    res['CE_Description'] = course_explorer['Description']
+    res['CE_Title'] = course_explorer['Title']
+    res['CE_Credit'] = course_explorer['Credit']
+    res['CE_GenEd'] = course_explorer['GenEd']
+    res['CE_Url'] = course_explorer['Url']
     return res
 
 

@@ -107,7 +107,20 @@ TABLE_STRUCT = {
         'Review',
         'Research',
     ),
+    'CourseExplorer': (
+        'Id',
+        'Subject',
+        'Code',
+        'Title',
+        'Credit',
+        'Description',
+        'GenEd',
+        'Url'
+    )
 }
+
+COURSE_EXPLORER_FIELDS = (
+)
 
 MARKDOWN_FIELDS = (
     'Description',

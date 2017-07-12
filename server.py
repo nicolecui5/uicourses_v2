@@ -30,6 +30,7 @@ try:
 except:
     usage()
 REQUEST_HEAD = '/dbapi'
+REDIRECT_HEAD = '/redirect'
 DEBUG = True
 
 
@@ -84,10 +85,19 @@ class RequestHandler(BaseHTTPRequestHandler):
 
         # Validation filters
         log('I', 'api', 'Validating parameters...')
-        if self.path[:len(REQUEST_HEAD)] != REQUEST_HEAD:
+        if self.path[:len(REQUEST_HEAD)] != REQUEST_HEAD \
+                and self.path[:len(REDIRECT_HEAD)] != REDIRECT_HEAD:
             log('E', 'api', 'does not start with request head (%s)' % REQUEST_HEAD)
             self.exit_on_error('does not start with request head')
             return
+
+        if self.path[:len(REDIRECT_HEAD)] == REDIRECT_HEAD:
+            target_url = 'https://' + self.path.split('~~~')[1]
+            jump_code = '<meta http-equiv="refresh" content="0; url=%s" />' % target_url
+            self.wfile.write(jump_code)
+            self.wfile.close()
+            return
+
         if len(self.path) <= len(REQUEST_HEAD) + 1:  # 1 covers `?`
             log('E', 'api', 'does not have GET parameters')
             self.exit_on_error('does not have GET parameters')
