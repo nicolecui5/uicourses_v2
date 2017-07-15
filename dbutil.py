@@ -285,6 +285,48 @@ def lookup_course(db, subject, code, suffix=''):
     res['CE_Credit'] = course_explorer['Credit']
     res['CE_GenEd'] = course_explorer['GenEd']
     res['CE_Url'] = course_explorer['Url']
+
+    # graph
+    pie_js = '''
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load('current', {
+            'packages': ['corechart']
+        });
+        google.charts.setOnLoadCallback(drawChart);
+    
+        function drawChart() {
+            var data = google.visualization.arrayToDataTable([
+                ['Task', 'Percentage'],
+                ['Lecture', %f],
+                ['Discussion', %f],
+                ['Homework', %f],
+                ['Lab', %f],
+                ['Quiz', %f],
+                ['Midterms', %f],
+                ['Project', %f],
+                ['Final', %f],
+                ['ExtraCredit', %f],
+                ['Other', %f]
+            ]);
+            var options = {
+                title: 'Percentage Breakdown',
+                colors: ['#99CBE5', '#A2D4D5', '#F8DED8', '#F8B5BB', '#A69C94', '#99CBE5', '#A2D4D5', '#F8DED8', '#F8B5BB', '#A69C94']
+            };
+            var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+            chart.draw(data, options);
+        }
+    </script>
+    
+    <div style="float:cen;clear:both;">
+        <div id="piechart" style="width: 500px; height: 300px; float:left;clear:left;"></div>
+    </div>
+    '''
+
+    pie_param = [res['Pct_Lecture'], res['Pct_Discussion'], res['Pct_Homework'], res['Pct_Lab'], res['Pct_Quiz'], \
+                 res['Pct_Midterm'], res['Pct_Project'], res['Pct_Final'], res['Pct_ExtraCredit'], res['Pct_Other']]
+    res['Pie_Script'] = pie_js % pie_param
+
     return res
 
 

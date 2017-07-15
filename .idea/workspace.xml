@@ -17,8 +17,8 @@
       <file leaf-file-name="dbutil.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/dbutil.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="452">
-              <caret line="281" column="63" lean-forward="true" selection-start-line="281" selection-start-column="63" selection-end-line="281" selection-end-column="63" />
+            <state relative-caret-position="-3234">
+              <caret line="144" column="31" lean-forward="false" selection-start-line="144" selection-start-column="28" selection-end-line="144" selection-end-column="31" />
               <folding />
             </state>
           </provider>
@@ -30,7 +30,14 @@
     <findStrings>
       <find>ce_</find>
       <find>res[</find>
+      <find>parseFloat(2)</find>
+      <find>%</find>
+      <find>% (</find>
     </findStrings>
+    <replaceStrings>
+      <replace>{}</replace>
+      <replace>%f</replace>
+    </replaceStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -141,8 +148,8 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/dbutil.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="452">
-          <caret line="281" column="63" lean-forward="true" selection-start-line="281" selection-start-column="63" selection-end-line="281" selection-end-column="63" />
+        <state relative-caret-position="-3234">
+          <caret line="144" column="31" lean-forward="false" selection-start-line="144" selection-start-column="28" selection-end-line="144" selection-end-column="31" />
           <folding />
         </state>
       </provider>
