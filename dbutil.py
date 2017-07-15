@@ -303,25 +303,29 @@ def lookup_course(db, subject, code, suffix=''):
     res['CE_Url'] = course_explorer['Url']
 
     # graph
-    pie_js = """
+    pie_js1 = '''
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
         google.charts.load('current', {packages: ['corechart']});
         google.charts.setOnLoadCallback(drawChart);
-        function drawChart() {
-            var data = google.visualization.arrayToDataTable([
-                ['Task', 'Percentage'],
-                ['Lecture', {}],
-                ['Discussion', {}],
-                ['Homework', {}],
-                ['Lab', {}],
-                ['Quiz', {}],
-                ['Midterms', {}],
-                ['Project', {}],
-                ['Final', {}],
-                ['ExtraCredit', {}],
-                ['Other', {}]
-            ]);
+        function drawChart() {\n
+    '''
+    pie_js2 = '''
+    var data = google.visualization.arrayToDataTable([
+        ['Task', 'Percentage'],
+        ['Lecture', {0}],
+        ['Discussion', {1}],
+        ['Homework', {2}],
+        ['Lab', {3}],
+        ['Quiz', {4}],
+        ['Midterms', {5}],
+        ['Project', {6}],
+        ['Final', {7}],
+        ['ExtraCredit', {8}],
+        ['Other', {9}]
+    ]);\n
+    '''
+    pie_js3 = '''
             var options = {
                 title: 'Percentage Breakdown',
                 colors: ['#99CBE5', '#A2D4D5', '#F8DED8', '#F8B5BB', '#A69C94', '#99CBE5', '#A2D4D5', '#F8DED8', '#F8B5BB', '#A69C94']
@@ -333,9 +337,9 @@ def lookup_course(db, subject, code, suffix=''):
     <div style="float:cen;clear:both;">
         <div id="piechart" style="width: 500px; height: 300px; float:left;clear:left;"></div>
     </div>
-    """
+    '''
     
-    res['Pie_Script'] = pie_js.format(res['Pct_Lecture'], res['Pct_Discussion'], res['Pct_Homework'], res['Pct_Lab'], res['Pct_Quiz'], res['Pct_Midterm'], res['Pct_Project'], res['Pct_Final'], res['Pct_ExtraCredit'], res['Pct_Other'])
+    res['Pie_Script'] = pie_js1 + pie_js2.format(res['Pct_Lecture'], res['Pct_Discussion'], res['Pct_Homework'], res['Pct_Lab'], res['Pct_Quiz'], res['Pct_Midterm'], res['Pct_Project'], res['Pct_Final'], res['Pct_ExtraCredit'], res['Pct_Other']) + pie_js3
     
     return res
 
