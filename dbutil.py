@@ -231,6 +231,7 @@ def lookup_course(db, subject, code, suffix=''):
     # spaces or tabs. reviewers: feel free to fix (only if time permits)
     course_review_ids = expand_csl(res['Reviews'])
     list_review = []
+    res['Course_Review'] = {}
     for rid in course_review_ids:
         try:
             rid = int(rid)
@@ -252,12 +253,12 @@ def lookup_course(db, subject, code, suffix=''):
             list_r = "List_" + r
             if list_r not in list_review:
                 list_review.append(list_r)
-            if list_r not in res:
-                res[list_r] = ''
+            if list_r not in res['Course_Review']:
+                res['Course_Review'][list_r] = ''
             if review[r]:
-                res[list_r] += ('- ' + review[r] + '\n')
+                res['Course_Review'][list_r] += ('- ' + review[r] + '\n')
     for list_r in list_review:
-        res[list_r] = markdown(res[list_r]).replace('\n', '')
+        res['Course_Review'][list_r] = markdown(res[list_r]).replace('\n', '')
         # course_reviews.append(review)
     # res['Reviews'] = course_reviews
 
@@ -280,11 +281,12 @@ def lookup_course(db, subject, code, suffix=''):
     res['Professor'] = professor_info
 
     course_explorer = look_up_course_explore(db, subject, code)
-    res['CE_Description'] = course_explorer['Description']
-    res['CE_Title'] = course_explorer['Title']
-    res['CE_Credit'] = course_explorer['Credit']
-    res['CE_GenEd'] = course_explorer['GenEd']
-    res['CE_Url'] = course_explorer['Url']
+    res['Course_Explorer'] = {}
+    res['Course_Explorer']['CE_Description'] = course_explorer['Description']
+    res['Course_Explorer']['CE_Title'] = course_explorer['Title']
+    res['Course_Explorer']['CE_Credit'] = course_explorer['Credit']
+    res['Course_Explorer']['CE_GenEd'] = course_explorer['GenEd']
+    res['Course_Explorer']['CE_Url'] = course_explorer['Url']
     return res
 
 
