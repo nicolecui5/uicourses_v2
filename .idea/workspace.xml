@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e8fd4b60-be43-41d0-9022-165495ce9314" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dbutil.py" afterPath="$PROJECT_DIR$/dbutil.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -18,8 +17,8 @@
       <file leaf-file-name="dbutil.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/dbutil.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="361">
-              <caret line="260" column="68" lean-forward="false" selection-start-line="260" selection-start-column="68" selection-end-line="260" selection-end-column="68" />
+            <state relative-caret-position="452">
+              <caret line="281" column="63" lean-forward="true" selection-start-line="281" selection-start-column="63" selection-end-line="281" selection-end-column="63" />
               <folding />
             </state>
           </provider>
@@ -142,8 +141,8 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/dbutil.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="361">
-          <caret line="260" column="68" lean-forward="false" selection-start-line="260" selection-start-column="68" selection-end-line="260" selection-end-column="68" />
+        <state relative-caret-position="452">
+          <caret line="281" column="63" lean-forward="true" selection-start-line="281" selection-start-column="63" selection-end-line="281" selection-end-column="63" />
           <folding />
         </state>
       </provider>
