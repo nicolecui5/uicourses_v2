@@ -304,7 +304,7 @@ def lookup_course(db, subject, code, suffix=''):
 
     # graph
     pie_js1 = '''
-    <script type=text/javascript src=https://www.gstatic.com/charts/loader.js></script><script type=text/javascript>google.charts.load('current', {packages: ['corechart']});google.charts.setOnLoadCallback(drawChart);function drawChart() {
+    <script type=text/javascript src=https://www.gstatic.com/charts/loader.js></script><script type=text/javascript>google.charts.load("current", {packages: ["corechart"]});google.charts.setOnLoadCallback(drawChart);function drawChart() {
     '''
     pie_js2 = '''
     var data = google.visualization.arrayToDataTable([["Task", "Percentage"],["Lecture", {0}],["Discussion", {1}],["Homework", {2}],["Lab", {3}],["Quiz", {4}],["Midterms", {5}],["Project", {6}],["Final", {7}],["ExtraCredit", {8}],["Other", {9}]]);
@@ -314,7 +314,7 @@ def lookup_course(db, subject, code, suffix=''):
     '''
     
     res['Pie_Script'] = pie_js1 + pie_js2.format(res['Pct_Lecture'], res['Pct_Discussion'], res['Pct_Homework'], res['Pct_Lab'], res['Pct_Quiz'], res['Pct_Midterm'], res['Pct_Project'], res['Pct_Final'], res['Pct_ExtraCredit'], res['Pct_Other']) + pie_js3
-    res['Pie_Script'] = res['Pie_Script'].replace('\n', '').replace('  ', ' ').replace(unicode('&quot;'), '"')
+    res['Pie_Script'] = res['Pie_Script'].replace('\n', '').replace('  ', ' ')
 
     return res
 
