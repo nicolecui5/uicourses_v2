@@ -197,6 +197,22 @@ def look_up_course_explore(db, subject, code):
     return res
 
 
+def calc_diff(self):
+    init_diff = (
+        res['Diff_Lecture'],
+        res['Diff_Discussion'],
+        res['Diff_Homework'],
+        res['Diff_Lab'],
+        res['Diff_Quiz'],
+        res['Diff_Midterm'],
+        res['Diff_Project'],
+        res['Diff_Final']
+    )
+
+    follow_up_diff = []
+
+
+
 def lookup_course(db, subject, code, suffix=''):
     # perform SQL query
     cur = db.cursor()
@@ -287,10 +303,10 @@ def lookup_course(db, subject, code, suffix=''):
     res['CE_Url'] = course_explorer['Url']
 
     # graph
-    pie_js = '''
+    pie_js = """
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
-        google.charts.load('current', {'packages': ['corechart']});
+        google.charts.load('current', {packages: ['corechart']});
         google.charts.setOnLoadCallback(drawChart);
         function drawChart() {
             var data = google.visualization.arrayToDataTable([
@@ -314,14 +330,13 @@ def lookup_course(db, subject, code, suffix=''):
             chart.draw(data, options);
         }
     </script>
-    
     <div style="float:cen;clear:both;">
         <div id="piechart" style="width: 500px; height: 300px; float:left;clear:left;"></div>
     </div>
-    '''
-
+    """
+    
     res['Pie_Script'] = pie_js.format(res['Pct_Lecture'], res['Pct_Discussion'], res['Pct_Homework'], res['Pct_Lab'], res['Pct_Quiz'], res['Pct_Midterm'], res['Pct_Project'], res['Pct_Final'], res['Pct_ExtraCredit'], res['Pct_Other'])
-
+    
     return res
 
 
@@ -332,14 +347,14 @@ def lookup_course(db, subject, code, suffix=''):
 if __name__ == '__main__':
     # Testing connection
     db = connect()
-    
+                
     # Testing prof review lookup
     # good
     prof_review = lookup_prof_review(db, 1)
     print(prof_review['Review'])
     # not found
     print(lookup_prof_review(db, 9999999))
-    
+                                            
     # Testing prof
     # good
     (fn, ln) = ('ChAnDrA', 'cHeKuRi')    # check that cases are ignored
