@@ -323,9 +323,7 @@ def lookup_course(db, subject, code, suffix=''):
     </div>
     '''
 
-    res['Pie_Script'] = pie_js.format(res['Pct_Lecture'], res['Pct_Discussion'], res['Pct_Homework'], \
-                                      res['Pct_Lab'], res['Pct_Quiz'], res['Pct_Midterm'], res['Pct_Project'], \
-                                      res['Pct_Final'], res['Pct_ExtraCredit'], res['Pct_Other'])
+    res['Pie_Script'] = pie_js.format(res['Pct_Lecture'], res['Pct_Discussion'], res['Pct_Homework'], res['Pct_Lab'], res['Pct_Quiz'], res['Pct_Midterm'], res['Pct_Project'], res['Pct_Final'], res['Pct_ExtraCredit'], res['Pct_Other'])
 
     return res
 
