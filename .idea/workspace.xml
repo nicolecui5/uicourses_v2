@@ -18,7 +18,7 @@
         <entry file="file://$PROJECT_DIR$/dbutil.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="364">
-              <caret line="316" column="78" lean-forward="false" selection-start-line="316" selection-start-column="78" selection-end-line="316" selection-end-column="78" />
+              <caret line="316" column="110" lean-forward="true" selection-start-line="316" selection-start-column="78" selection-end-line="316" selection-end-column="110" />
               <folding />
             </state>
           </provider>
@@ -221,7 +221,7 @@
     <entry file="file://$PROJECT_DIR$/dbutil.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="364">
-          <caret line="316" column="78" lean-forward="false" selection-start-line="316" selection-start-column="78" selection-end-line="316" selection-end-column="78" />
+          <caret line="316" column="110" lean-forward="true" selection-start-line="316" selection-start-column="78" selection-end-line="316" selection-end-column="110" />
           <folding />
         </state>
       </provider>
