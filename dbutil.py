@@ -290,11 +290,8 @@ def lookup_course(db, subject, code, suffix=''):
     pie_js = '''
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
-        google.charts.load('current', {
-            'packages': ['corechart']
-        });
+        google.charts.load('current', {'packages': ['corechart']});
         google.charts.setOnLoadCallback(drawChart);
-    
         function drawChart() {
             var data = google.visualization.arrayToDataTable([
                 ['Task', 'Percentage'],

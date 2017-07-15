@@ -17,8 +17,8 @@
       <file leaf-file-name="dbutil.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/dbutil.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="325">
-              <caret line="325" column="175" lean-forward="false" selection-start-line="325" selection-start-column="175" selection-end-line="325" selection-end-column="175" />
+            <state relative-caret-position="39">
+              <caret line="292" column="64" lean-forward="false" selection-start-line="292" selection-start-column="64" selection-end-line="292" selection-end-column="64" />
               <folding />
             </state>
           </provider>
@@ -149,8 +149,8 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/dbutil.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="325">
-          <caret line="325" column="175" lean-forward="false" selection-start-line="325" selection-start-column="175" selection-end-line="325" selection-end-column="175" />
+        <state relative-caret-position="39">
+          <caret line="292" column="64" lean-forward="false" selection-start-line="292" selection-start-column="64" selection-end-line="292" selection-end-column="64" />
           <folding />
         </state>
       </provider>
