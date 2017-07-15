@@ -318,7 +318,8 @@ def lookup_course(db, subject, code, suffix=''):
     '''
     
     res['Pie_Script'] = pie_js1 + pie_js2.format(res['Pct_Lecture'], res['Pct_Discussion'], res['Pct_Homework'], res['Pct_Lab'], res['Pct_Quiz'], res['Pct_Midterm'], res['Pct_Project'], res['Pct_Final'], res['Pct_ExtraCredit'], res['Pct_Other']) + pie_js3
-    
+    res['Pie_Script'] = res['Pie_Script'].replace('\n', '')
+
     return res
 
 
