@@ -52,3 +52,9 @@ def expand_csl(string):
     if string[-1] == ',':
         string = string[:-1]
     return string.replace(', ', ',').split(',')
+
+def append_csl(csl, new_str):
+    if csl == '':
+        return new_str
+    return csl + ',' + new_str
+
