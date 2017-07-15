@@ -258,7 +258,7 @@ def lookup_course(db, subject, code, suffix=''):
             if review[r]:
                 res['Course_Review'][list_r] += ('- ' + review[r] + '\n')
     for list_r in list_review:
-        res['Course_Review'][list_r] = markdown(res[list_r]).replace('\n', '')
+        res['Course_Review'][list_r] = markdown(res['Course_Review'][list_r]).replace('\n', '')
         # course_reviews.append(review)
     # res['Reviews'] = course_reviews
 
