@@ -1,0 +1,207 @@
+[jsoncontentimporter url="http://uicourses.com:9000/dbapi?subject=cs&code=374&key=mykey"]
+
+<h1>{Subject} {Code} {CE_Title}</h1>
+
+<style>
+	div p {
+		padding: 0px;
+	}
+
+	h3,
+	p {
+		clear: both;
+	}
+</style>
+
+<div style="background-color:#f6f6f6;padding:30px 30px 10px;">
+
+	<p><b>Source: <a href="{CE_Url}" target="_blank">Course Explorer</a></b></p>
+
+	{CE_Description:html}
+
+	<p><b>Credit</b> {CE_Credit}</p>
+
+	<p><b>Gen Ed</b> {CE_Geneds}</p>
+
+</div>
+
+<h2>课程基本信息</h2>
+
+<h3 id="课程介绍">课程介绍</h3> {Description:html}
+
+<h3 id="主要知识点">主要知识点</h3> {Knowledge:html}
+
+<h3 id="课程资源">课程资源</h3> {Resource:html}
+
+<h3 id="课程必备工具">课程必备工具</h3> {Tool:html}
+
+<h2>课程单项描述及评分</h2>
+
+<h3 id="Letter Grade">Letter Grade</h3>
+<table>
+	<tbody>
+		<tr>
+			<th>Letter Grade</th>
+			<th>Percentage Grade</th>
+		</tr>
+		<tr>
+			<td>A+</td>
+			<td>{Letter_Ap:html}</td>
+		</tr>
+		<tr>
+			<td>A</td>
+			<td>{Letter_A:html}</td>
+		</tr>
+		<tr>
+			<td>A-</td>
+			<td>{Letter_Am:html}</td>
+		</tr>
+		<tr>
+			<td>B+</td>
+			<td>{Letter_Bp:html}</td>
+		</tr>
+		<tr>
+			<td>B</td>
+			<td>{Letter_B:html}</td>
+		</tr>
+		<tr>
+			<td>B-</td>
+			<td>{Letter_Bm:html}</td>
+		</tr>
+	</tbody>
+</table>
+
+<h3 id="Curve">Curve</h3> {Curve:html}
+
+<h3 id="Breakdown">Breakdown</h3>
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+	google.charts.load('current', {
+		'packages': ['corechart']
+	});
+	google.charts.setOnLoadCallback(drawChart);
+
+	function drawChart() {
+		var data = google.visualization.arrayToDataTable([
+			['Task', 'Percentage'],
+			['Lecture', {Pct_Lecture}],
+			['Discussion', {Pct_Discussion}],
+			['Homework', {Pct_Homework}],
+			['Lab', {Pct_Lab}],
+			['Quiz', {Pct_Quiz}],
+			['Midterms', {Pct_Midterm}],
+			['Project', {Pct_Project}],
+			['Final', {Pct_Final}],
+			['ExtraCredit', {Pct_ExtraCredit}],
+			['Other', {Pct_Other}]
+		]);
+		var options = {
+			title: 'Percentage Breakdown',
+			colors: ['#99CBE5', '#A2D4D5', '#F8DED8', '#F8B5BB', '#A69C94', '#99CBE5', '#A2D4D5', '#F8DED8', '#F8B5BB', '#A69C94']
+		};
+		var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+		chart.draw(data, options);
+	}
+</script>
+
+<script type="text/javascript">
+	google.charts.load("current", {
+		packages: ["corechart"]
+	});
+	google.charts.setOnLoadCallback(drawChart);
+
+	function drawChart() {
+		var data = google.visualization.arrayToDataTable([
+			["Element", "Difficulty", {
+				role: "style"
+			}],
+			['Lecture', 0.2, '#99CBE5'],
+			['Discussion', 2.2, '#A2D4D5'],
+			['Homework', 4.3, '#F8DED8'],
+			['Lab', 2.4, '#F8B5BB'],
+			['Quiz', 1.5, '#A69C94'],
+			['Midterms', 2.6, '#99CBE5'],
+			['Project', 3.7, '#A2D4D5'],
+			['Final', 1.8, '#F8DED8'],
+		]);
+		var view = new google.visualization.DataView(data);
+		var options = {
+			title: "Difficulty",
+			// width: 600,
+			// height: 400,
+			bar: {
+				groupWidth: "95%"
+			},
+			legend: {
+				position: "none"
+			},
+		};
+		var chart = new google.visualization.BarChart(document.getElementById("barchart_values"));
+		chart.draw(view, options);
+	}
+</script>
+<div style="float:cen;clear:both;">
+	<div id="piechart" style="width: 500px; height: 300px; float:left;clear:left;"></div>
+
+	<div id="barchart_values" style="width: 500px; height: 300px; float:left;clear:right;"></div>
+</div>
+
+<h3>单项描述</h3>
+
+<h4>Lecture Participation (iClicker)</h4> {Desc_Lecture:html} {List_Desc_Lecture:html}
+
+<h4>Discussion</h4> {Desc_Discussion:html} {List_Desc_Discussion:html}
+
+<h4>Homework</h4> {Desc_Homework:html} {List_Desc_Homework:html}
+
+<h4>Lab</h4> {Desc_Lab:html} {List_Desc_Lab:html}
+
+<h4>Quiz</h4> {Desc_Quiz:html} {List_Desc_Quiz:html}
+
+<h4>Midterms</h4> {Desc_Midterm:html} {List_Desc_Midterm:html}
+
+<h4>Semester Project/Paper</h4> {Desc_Project:html} {List_Desc_Project:html}
+
+<h4>Final Exam</h4> {Desc_Final:html} {List_Desc_Final:html}
+
+<h4>Extra Credit</h4> {Desc_ExtraCredit:html} {List_Desc_ExtraCredit:html}
+
+<h4>其他</h4> {Desc_Other:html} {List_Desc_Other:html}
+
+<style>
+	ul.rmp_data {
+		list-style-type: none;
+		list-style-position: outside;
+	}
+
+	.rmp_data>li {
+		display: inline-block;
+	}
+
+	.tag {
+		font-size: 10px;
+		color: white;
+		background-color: #888;
+		padding: 2px;
+	}
+</style>
+
+<h2 id="教授">教授</h2> {subloop-array:Professor:-1}
+
+<h3 style="margin-bottom:0px;display:inline-block;"> {Professor.FirstName:html} {Professor.LastName:html} </h3> &nbsp;|&nbsp; {# TODO RMP
+<b>Quality</b> 4.2 &nbsp;|&nbsp; <b>Difficulty</b> 3.7
+<p>
+	<span class="tag"> CLEAR GRADING CRITERIA </span> &nbsp;
+	<span class="tag"> GROUP PROJECTS </span> &nbsp;
+	<span class="tag"> TEST HEAVY </span> &nbsp;
+</p>
+<p> Source: <a href="http://www.ratemyprofessors.com/ShowRatings.jsp?tid=1901793" target="_blank">Rate My Professor</a></p>#} {Professor.Review:html} {Professor.List_Review:html}
+
+<h4>Research 机会</h4> {Professor.List_Research:html} {/subloop-array:Professor}
+
+<h2>其他信息</h2>
+
+<h3>Honor Section</h3> {Honor:html}
+
+<h3>建议</h3> {List_Advice:html} [/jsoncontentimporter]
