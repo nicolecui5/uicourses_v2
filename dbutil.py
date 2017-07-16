@@ -23,6 +23,8 @@ from markdown import markdown
 from util import *
 from options import *
 from credentials import *
+from graph_generator import *
+from calc_diff import *
 import re
 
 ###############################################################################
@@ -197,22 +199,6 @@ def look_up_course_explore(db, subject, code):
     return res
 
 
-def calc_diff(self):
-    init_diff = (
-        res['Diff_Lecture'],
-        res['Diff_Discussion'],
-        res['Diff_Homework'],
-        res['Diff_Lab'],
-        res['Diff_Quiz'],
-        res['Diff_Midterm'],
-        res['Diff_Project'],
-        res['Diff_Final']
-    )
-
-    follow_up_diff = []
-
-
-
 def lookup_course(db, subject, code, suffix=''):
     # perform SQL query
     cur = db.cursor()
@@ -246,7 +232,12 @@ def lookup_course(db, subject, code, suffix=''):
     # should ignore space. this cheats a bit becasue it can't handle multiple
     # spaces or tabs. reviewers: feel free to fix (only if time permits)
     course_review_ids = expand_csl(res['Reviews'])
-    list_review = []
+    # a dictionary of difficulties in all categories
+    diff_dict = {}
+    for diff_entry in DIFF_ITEMS:
+        diff_dict[diff_entry] = []
+    # a list of keys / column names in CourseReview results
+    key_list = []
     for rid in course_review_ids:
         try:
             rid = int(rid)
@@ -262,20 +253,38 @@ def lookup_course(db, subject, code, suffix=''):
                 'Review %s does not match Course %s. Skipping.' \
                     % (review['Target'], res['Id']))
             continue
-        for r in review.keys():
-            if isinstance(review[r], unicode)==False:
-                continue
-            list_r = "List_" + r
-            if list_r not in list_review:
-                list_review.append(list_r)
-            if list_r not in res:
-                res[list_r] = ''
-            if review[r]:
-                res[list_r] += ('- ' + review[r] + '\n')
-    for list_r in list_review:
-        res[list_r] = markdown(res[list_r]).replace('\n', '')
-        # course_reviews.append(review)
-    # res['Reviews'] = course_reviews
+        # record difficulty in the diff_dict dictionary
+        for diff_entry in DIFF_ITEMS:
+            diff_dict[diff_entry].append(review['Diff_' + diff_entry])
+        # make each of the other CourseReview attributes a list 
+        # in the `res` dictionary
+        for review_key in review.keys():
+            if review_key[:4] in ('Desc', 'Advi'):
+                this_key = "List_" + review_key
+                if this_key not in key_list:
+                    key_list.append(this_key)
+                # if this is the first review, initalize an empty str first
+                if this_key not in res:
+                    res[this_key] = ''
+                # append the `review_key` item from this review
+                if review[review_key] != '':
+                    # add it as a markdown list entry by adding '- '
+                    markdown_str = '- ' + review[review_key] + '\n'
+                    res[this_key] += markdown_str
+    # for each attribute of CourseReview, convert markdown to html
+    for this_key in key_list:
+        res[this_key] = markdown(res[this_key])
+        res[this_key].replace('\n', '')
+
+    # weight difficulty scores
+    init_diff = {}
+    for diff_entry in DIFF_ITEMS:
+        init_diff[diff_entry] = res['Diff_' + diff_entry]
+    weighted_diff = calc_diff(init_diff, diff_dict)
+    # Suyie: this is the dictionary you want to use for the graph
+    print(weighted_diff)
+    for diff_entry in DIFF_ITEMS:
+        res['Wtd_Diff_' + diff_entry] = weighted_diff[diff_entry]
 
     # fetch prof info - same deal
     professor_info = []
@@ -303,18 +312,18 @@ def lookup_course(db, subject, code, suffix=''):
     res['CE_Url'] = course_explorer['Url']
 
     # graph
-    pie_js1 = '''
-    <script type=text/javascript src=https://www.gstatic.com/charts/loader.js></script><script type=text/javascript>google.charts.load("current", {packages: ["corechart"]});google.charts.setOnLoadCallback(drawChart);function drawChart() {
-    '''
-    pie_js2 = '''
-    var data = google.visualization.arrayToDataTable([["Task", "Percentage"],["Lecture", {0}],["Discussion", {1}],["Homework", {2}],["Lab", {3}],["Quiz", {4}],["Midterms", {5}],["Project", {6}],["Final", {7}],["ExtraCredit", {8}],["Other", {9}]]);
-    '''
-    pie_js3 = '''
-    var options = {title: "Percentage Breakdown", colors: ["#99CBE5", "#A2D4D5", "#F8DED8", "#F8B5BB", "#A69C94", "#99CBE5", "#A2D4D5", "#F8DED8", "#F8B5BB", "#A69C94"]};var chart = new google.visualization.PieChart(document.getElementById("piechart"));chart.draw(data, options);}</script><div style=float:cen;clear:both;><div id=piechart style=width:500px;height:300px;float:left;clear:left;></div></div>
-    '''
-    
-    res['Pie_Script'] = pie_js1 + pie_js2.format(res['Pct_Lecture'], res['Pct_Discussion'], res['Pct_Homework'], res['Pct_Lab'], res['Pct_Quiz'], res['Pct_Midterm'], res['Pct_Project'], res['Pct_Final'], res['Pct_ExtraCredit'], res['Pct_Other']) + pie_js3
-    res['Pie_Script'] = res['Pie_Script'].replace('\n', '').replace('  ', ' ').replace(unicode('&quot;'), '"')
+    pct_list = (
+        res['Pct_Lecture'], res['Pct_Discussion'], res['Pct_Homework'], 
+        res['Pct_Lab'], res['Pct_Quiz'], res['Pct_Midterm'], 
+        res['Pct_Project'], res['Pct_Final'], res['Pct_ExtraCredit'], 
+        res['Pct_Other']
+    )
+    diff_list = (
+        weighted_diff['Lecture'], weighted_diff['Discussion'], weighted_diff['Homework'], 
+        weighted_diff['Lab'], weighted_diff['Quiz'], weighted_diff['Midterm'],
+        weighted_diff['Project'], weighted_diff['Final']
+    )
+    graph_gen(subject, code, pct_list, diff_list)
 
     return res
 

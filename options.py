@@ -144,3 +144,18 @@ MARKDOWN_FIELDS = (
     'Review',
     'Research',
 )
+
+# List of sub-items in DIFFICULTY fields
+DIFF_ITEMS = [
+    'Final', 'Lab', 'Discussion', 'Midterm',
+    'Quiz', 'Project', 'Homework', 'Lecture'
+]
+
+
+###############################################################################
+# Weighting difficulty
+###############################################################################
+# weight_of_init_info / weight_of_reviewer_info.
+# if INIT_INFO_WIGHT == 2, it means that the init difficulty etc. weight twice
+# as much as each of the difficulties provieded by additional reviewers.
+INIT_INFO_WEIGHT = 1.5
