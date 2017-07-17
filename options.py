@@ -100,7 +100,8 @@ TABLE_STRUCT = {
         'LastName',
         'Course',
         'Review',
-    ),
+        'RMP_index'
+),
     'ProfReview': (
         'Id',
         'Target',

@@ -308,7 +308,10 @@ def lookup_course(db, subject, code, suffix=''):
     res['CE_Description'] = course_explorer['Description']
     res['CE_Title'] = course_explorer['Title']
     res['CE_Credit'] = course_explorer['Credit']
-    res['CE_GenEd'] = course_explorer['GenEd']
+    if course_explorer['GenEd'] == '':
+        res['CE_GenEd'] = "This course doesn't satisfy the General Education Criteria."
+    else:
+        res['CE_GenEd'] = course_explorer['GenEd']
     res['CE_Url'] = course_explorer['Url']
 
     # graph
@@ -324,6 +327,8 @@ def lookup_course(db, subject, code, suffix=''):
         weighted_diff['Project'], weighted_diff['Final']
     )
     graph_gen(subject, code, pct_list, diff_list)
+
+    res['Resource'] = res['Resource'].replace('"', '')
 
     return res
 

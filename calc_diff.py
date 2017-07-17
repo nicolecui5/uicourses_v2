@@ -22,4 +22,9 @@ def calc_diff(init_diff, addit_diff):
         if denominator == 0:
             denominator = 1
         weighted_diff[diff_entry] = total_val / float(denominator)
+
+    max_score = max(weighted_diff.values())
+    for key in list(weighted_diff.keys()):
+        if weighted_diff[key] != 0:
+            weighted_diff[key] = 1 + max_score - weighted_diff[key]
     return weighted_diff

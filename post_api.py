@@ -27,6 +27,7 @@ from util import *
 from options import *
 from dbutil import *
 from credentials import USERS
+from search_prof_info import *
 
 try:
     PORT = int(argv[1])
@@ -218,7 +219,7 @@ def course_review_handler(postvars):
 
 def professor_handler(postvars):
     cmd = '''
-    INSERT INTO `Professor` (`Id`, `Reviews`, `FirstName`, `LastName`, 
+    INSERT INTO `Professor` (`Id`, `Reviews`, `RMP_index`, `FirstName`, `LastName`, 
     `Course`, `Review`) VALUES (NULL, '', %s, %s, '', %s);
     '''
     # print(cmd)
@@ -227,6 +228,14 @@ def professor_handler(postvars):
                 [postvars['FirstName'][0], postvars['LastName'][0],
                  postvars['Review'][0]])
     log('C', 'hand.', 'Professor %s written.' % postvars['LastName'][0])
+
+
+    # Change start
+    cmd = '''
+    INSERT INTO `RateMyProfessorInfo` (`Id`, `firstName`, `lastName`, `tag`, `url`, `difficulty`, `quality`)
+    VALUES (NULL,)
+    '''
+    # Change end
 
 def prof_review_handler(postvars):
     full_name = '%s %s' \
