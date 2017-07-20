@@ -36,6 +36,8 @@ def log(type='I', tag='', comment=''):
         color = 'magenta'
     if type.upper() == 'E':
         color = 'red'
+    if type.upper() == 'D':
+        color = 'yellow'
     if color is not None:
         fstr = colored(fstr, color)
 
