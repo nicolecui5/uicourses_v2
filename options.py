@@ -120,9 +120,6 @@ TABLE_STRUCT = {
     )
 }
 
-COURSE_EXPLORER_FIELDS = (
-)
-
 MARKDOWN_FIELDS = (
     'Description',
     'Knowledge',
